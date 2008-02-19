@@ -6,14 +6,16 @@
    estimate for the Cox proportional harzards model.
 }
 \usage{
-phcpe(coxfit)
+phcpe(coxfit, CPE.SE=TRUE)
 }
 \arguments{
   \item{coxfit}{a coxph or cph object}
+  \item{CPE.SE}{a logical value indicating whether the standard error of
+    the concordance probability estimate should be calculated}
 }
 \value{
   \item{CPE}{Concordance Probability Estimate}
-  \item{CPE.SE}{the Standard Error of Concordance Probability Estimate}
+  \item{CPE.SE}{the Standard Error of the Concordance Probability Estimate}
 }
 
 \examples{
@@ -34,6 +36,8 @@ coxph.fit <- coxph(Surv(time,status)~x1+x2+x3,data=survd)
 library(CPE)
 phcpe(coxph.fit)
 
+### Calculate CPE only (needs much less time).
+phcpe(coxph.fit, CPE.SE=FALSE)
 
 #*** For unknown reason, 'coxph.fit' may need to be removed before running cph()***
 rm(coxph.fit)
@@ -43,6 +47,9 @@ cph.fit <- cph(Surv(time, status)~x1+x2+x3, data=survd,method="breslow")
 
 ### Calculate CPE and CPE.SE
 phcpe(cph.fit)
+
+### Calculate CPE only (needs much less time).
+phcpe(cph.fit, CPE.SE=FALSE)
 
 }
 

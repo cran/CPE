@@ -37,6 +37,7 @@ void vector_scale(int size, double * x, const double alpha) {
   }
 }
 
+/* Function to calculate CPE and its variance */
 void coxcpe(const int *ROW, const int *COL, const double *bandwidth, const double *xbeta, const double * Design, const double *varbeta, double * result) {
   
   int i, j, loc;
@@ -165,4 +166,25 @@ void coxcpe(const int *ROW, const int *COL, const double *bandwidth, const doubl
   free(sumdervec);
 }
 
+/* Function to calculate the CPE only */ 
+void coxcpeOnly(const int *ROW, const double *xbeta, double * result){
+  int i, j, loc;
+  double CPE, tempCPE, bxjxi,bxixj,denomji,denomij,Scale1; 
+  
+  CPE = 0;
+  Scale1 = 1.0/(*ROW);
+
+  for(i=0; i<((*ROW)-1); i++) {
+    tempCPE = 0;
+    for(j=(i+1); j<(*ROW); j++) {
+      bxjxi = xbeta[j] - xbeta[i];
+      bxixj = 0 - bxjxi;
+      denomji = 2 + expm1(bxjxi);
+      denomij = 2 + expm1(bxixj);
+      tempCPE += 1.0*(bxjxi <= 0)/denomji + 1.0*(bxixj < 0)/denomij;  /* [1] Kn(beta.hat) */
+     }		
+    CPE += Scale1 * tempCPE;
+  }
+  *result = 2.0*CPE/((*ROW) - 1);
+}
 
