@@ -9,11 +9,11 @@
 
 #The input for phcpe fuction must be a 'coxph' or 'cph' object
 
-phcpe <- function(coxfit, CPE.SE=TRUE) {
+phcpe <- function(coxfit, CPE.SE=FALSE,out.ties=FALSE) {
   if(class(coxfit)[1] != "coxph" && class(coxfit)[1] != "cph"){
     stop("Error! Input must be a coxph or cph object")
   }
-  
+
   row <- as.integer(sum(coxfit$n))
   col <- as.integer(length(coxfit$coefficients))
   design <- model.matrix(coxfit)
@@ -26,11 +26,18 @@ phcpe <- function(coxfit, CPE.SE=TRUE) {
     if(row >= 3000) {
       cat(c("It may take about n*n minutes to calculate 10000*n rows of data.\n"))
     }
-
-    res <- .C("coxcpe",row, col, bandwidth, xbeta, design, varbeta, out=as.double(rep(0, 3)),PACKAGE="CPE")
+    if(out.ties == FALSE){
+      res <- .C("coxcpe",row,col,bandwidth,xbeta,design,varbeta,out=as.double(rep(0, 3)),PACKAGE="CPE")
+    }else{
+      res <- .C("cpeNoTies",row,col,bandwidth,xbeta,design,varbeta,out=as.double(rep(0, 3)),PACKAGE="CPE")
+    }
     return(list(CPE = res$out[1], CPE.SE = res$out[3]))
   }else {
-    res <- .C("coxcpeOnly",row,xbeta,out=as.double(0), PACKAGE="CPE")
+    if(out.ties == FALSE){
+      res <- .C("coxcpeOnly",row,xbeta,out=as.double(0), PACKAGE="CPE")
+    }else {
+      res <- .C("cpeOnlyNoTies",row,xbeta,out=as.double(0), PACKAGE="CPE")
+    } 
     return(list(CPE=res$out))
   }
 }

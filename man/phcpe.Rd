@@ -3,15 +3,18 @@
 \title{Gonen \& Heller Concordance Probability Estimate for the Cox Proportional Harzards model}
 \description{
    A function to calculate Gonen \& Heller concordance probability
-   estimate for the Cox proportional harzards model.
+   estimate (CPE) for the Cox proportional harzards model.
 }
 \usage{
-phcpe(coxfit, CPE.SE=TRUE)
+phcpe(coxfit, CPE.SE=FALSE,out.ties=FALSE)
 }
 \arguments{
   \item{coxfit}{a coxph or cph object}
   \item{CPE.SE}{a logical value indicating whether the standard error of
-    the concordance probability estimate should be calculated}
+    the CPE should be calculated}
+  \item{out.ties}{If out.ties is set to FALSE,pairs of observations tied
+    on covariates will be used to calculate the CPE.  Otherwise, they will not be used.
+  }
 }
 \value{
   \item{CPE}{Concordance Probability Estimate}
@@ -32,12 +35,16 @@ names(survd) <- c("time","status","x1","x2","x3")
 library(survival)
 coxph.fit <- coxph(Surv(time,status)~x1+x2+x3,data=survd)
 
-### Calculate CPE and CPE.SE
-library(CPE)
-phcpe(coxph.fit)
 
 ### Calculate CPE only (needs much less time).
-phcpe(coxph.fit, CPE.SE=FALSE)
+library(CPE)
+phcpe(coxph.fit)
+phcpe(coxph.fit,out.ties=TRUE)
+#result is identical because the covariates are not tied #
+
+### Calculate CPE and CPE.SE
+phcpe(coxph.fit, CPE.SE=TRUE)
+phcpe(coxph.fit, CPE.SE=TRUE,out.ties=TRUE)
 
 #*** For unknown reason, 'coxph.fit' may need to be removed before running cph()***
 rm(coxph.fit)
@@ -45,11 +52,14 @@ rm(coxph.fit)
 library(Design)
 cph.fit <- cph(Surv(time, status)~x1+x2+x3, data=survd,method="breslow")
 
-### Calculate CPE and CPE.SE
-phcpe(cph.fit)
-
 ### Calculate CPE only (needs much less time).
-phcpe(cph.fit, CPE.SE=FALSE)
+phcpe(cph.fit)
+phcpe(cph.fit,out.ties=TRUE)
+
+
+### Calculate CPE and CPE.SE
+phcpe(cph.fit, CPE.SE=TRUE)
+phcpe(cph.fit, CPE.SE=TRUE,out.ties=TRUE)
 
 }
 
