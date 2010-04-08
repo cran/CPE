@@ -3,22 +3,23 @@
 #Memorial Sloan-Kettering Cancer Center, NY 10021
 
 #The input for phcpe fuction must be a 'coxph' or 'cph' object
-#Note, the default setting for model.matrix has been changed, now it doesn't
-#need to exclude the first column of the return matrix.
-# old: design = model.matrix(coxfit)[,-1]; updated: design = model.matrix(coxfit)
 
-phcpe <- function(coxfit, CPE.SE=FALSE,out.ties=FALSE) {
-  if(class(coxfit)[1] != "coxph" && class(coxfit)[1] != "cph"){
-    stop("Error! Input must be a coxph or cph object")
+phcpe2 <- function(coef,coef.var,design,CPE.SE=FALSE,out.ties=FALSE){
+
+  covar = as.matrix(coef.var)
+  design = as.matrix(design)
+  row <- as.integer(nrow(design))
+  col <- as.integer(ncol(design))
+
+  if(dim(covar)[1] != dim(covar)[2] || dim(covar)[1] != length(coef) || length(coef) != col){
+    cat("Error: the dimensions of coef, coef.var, or design do not match!\n")
+    stop("length(coef) == ncol(design) == dim(coef.var)[1] == dim(coef.var)[2]\n")
   }
-
-  row <- as.integer(sum(coxfit$n))
-  col <- as.integer(length(coxfit$coefficients))
-  design <- model.matrix(coxfit)
-  design <- as.double(as.vector(t(design)))  
-  xbeta <- as.double(as.vector(coxfit$linear.predictors))
-  varbeta <- as.double(as.vector(t(coxfit$var)))
-  bandwidth <- as.double(0.5*sd(coxfit$linear.predictors)*(row^(-1/3)))
+  
+  xbeta <- as.double(as.vector(design%*%coef))
+  design <- as.double(as.vector(t(design)))
+  varbeta <- as.double(as.vector(t(covar)))
+  bandwidth <- as.double(0.5*sd(xbeta)*(row^(-1/3)))
 
   if(CPE.SE==TRUE){
     if(row >= 3000) {

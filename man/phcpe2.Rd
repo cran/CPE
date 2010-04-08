@@ -1,15 +1,18 @@
-\name{phcpe}
-\alias{phcpe}
+\name{phcpe2}
+\alias{phcpe2}
 \title{Gonen \& Heller Concordance Probability Estimate for the Cox Proportional Hazards model}
 \description{
    A function to calculate Gonen \& Heller concordance probability
    estimate (CPE) for the Cox proportional hazards model.
 }
 \usage{
-phcpe(coxfit, CPE.SE=FALSE,out.ties=FALSE)
+phcpe2(coef,coef.var,design, CPE.SE=FALSE,out.ties=FALSE)
 }
 \arguments{
-  \item{coxfit}{A coxph or cph object}
+  \item{coef}{The coefficients of the Cox model.}
+  \item{coef.var}{The covariance matrix of the coefficients of the Cox model.}
+  \item{design}{A design matrix for covariates.  The rows correspond to subjects,
+    and the columns correspond to covariates.} 
   \item{CPE.SE}{A logical value indicating whether the standard error of
     the CPE should be calculated}
   \item{out.ties}{If out.ties is set to FALSE,pairs of observations tied
@@ -34,14 +37,8 @@ names(survd) <- c("time","status","x1","x2","x3")
 
 coxph.fit <- coxph(Surv(time,status)~x1+x2+x3,data=survd)
 
-### Calculate CPE only (needs much less time).
-phcpe(coxph.fit)
-phcpe(coxph.fit,out.ties=TRUE)
-#result is identical because the covariates are not tied #
-
-### Calculate CPE and CPE.SE
-phcpe(coxph.fit, CPE.SE=TRUE)
-phcpe(coxph.fit, CPE.SE=TRUE,out.ties=TRUE)
+phcpe(coxph.fit,CPE.SE=TRUE)
+phcpe2(coef=coxph.fit$coefficients,coef.var=coxph.fit$var,design=model.matrix(coxph.fit))
 
 #*** For unknown reason, 'coxph.fit' may need to be removed before running cph()***
 rm(coxph.fit)
@@ -49,12 +46,7 @@ rm(coxph.fit)
 cph.fit <- cph(Surv(time, status)~x1+x2+x3, data=survd,method="breslow")
 
 ### Calculate CPE only (needs much less time).
-phcpe(cph.fit)
-phcpe(cph.fit,out.ties=TRUE)
-
-### Calculate CPE and CPE.SE
-phcpe(cph.fit, CPE.SE=TRUE)
-phcpe(cph.fit, CPE.SE=TRUE,out.ties=TRUE)
+phcpe2(cph.fit$coefficients,coef.var=cph.fit$var,design=model.matrix(cph.fit),CPE.SE=TRUE)
 
 }
 

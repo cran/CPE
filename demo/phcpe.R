@@ -8,10 +8,7 @@ covar <- matrix(rnorm(3*nn), ncol=3)
 survd <- data.frame(time, status, covar)
 names(survd) <- c("time","status","x1","x2","x3")
 
-library(survival)
 coxph.fit <- coxph(Surv(time,status)~x1+x2+x3,data=survd)
-
-library(CPE)
 
 ### Calculate CPE and CPE.SE
 phcpe(coxph.fit)
@@ -22,7 +19,6 @@ phcpe(coxph.fit, CPE.SE=FALSE)
 #*** For unknown reason, 'coxph.fit' may need to be removed before running cph()***
 rm(coxph.fit)
 
-library(Design)
 cph.fit <- cph(Surv(time, status)~x1+x2+x3, data=survd)
 
 ### Calculate CPE and CPE.SE
