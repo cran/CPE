@@ -1,0 +1,10 @@
+c154fa2dc948d3640e7739ff8236b2d4 *DESCRIPTION
+5ac1300be756f81c78939e37e9513e88 *R/phcpe.R
+6d2372ea2dc3308b8716b9264f8e7835 *R/phcpe2.R
+ba55aad27a04d9678516d7e803f2545e *R/zzz.R
+13de4ad91a96e4a21444ec6b12394827 *demo/00Index
+f3eccf5bd76c2015129db5d760efdc47 *demo/phcpe.R
+294aa2389391af356f2c129ccb645c51 *man/phcpe.Rd
+daea0f5040a999e066cbd43041836829 *man/phcpe2.Rd
+ee86739843c2e374f4809d2d6a2bd739 *src/Makevars
+b5d457af43f9d15604acfc1ca0638bfb *src/phcpe.c

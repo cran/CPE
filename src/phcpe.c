@@ -63,21 +63,19 @@ void coxcpe(const int *ROW, const int *COL, const double *bandwidth, const doubl
   rowsum2 = (double *) calloc((*ROW), sizeof(double));
 
   if(xji==NULL || xij==NULL || tempv==NULL || tempxij==NULL || tempxji==NULL || sumdervec==NULL || rowsum2==NULL){
-    printf("Error: Fail to allocate memory space. Your computer may not have enough memory. \n");
-    exit(1);
+    error("Error: Fail to allocate memory space. Your computer may not have enough memory. \n");
+    /*   error(1); */
   }
 
   design = (double **) malloc((*ROW)*sizeof(double *));
   if(design==NULL){
-    printf("Error: Fail to allocate memory space. Your computer may not have enough memory. \n");
-    exit(1);
+    error("Error: Fail to allocate memory space. Your computer may not have enough memory. \n");
   }
   
   for(i=0; i<(*ROW); i++) {
     design[i] = (double *) malloc((*COL)*sizeof(double));
     if(design[i] == NULL){
-      printf("Error: Fail to allocate memory space. Your computer may not have enough memory. \n");
-      exit(1);
+      error("Error: Fail to allocate memory space. Your computer may not have enough memory. \n");
     }
     for(j=0; j<(*COL); j++){
       loc = i*(*COL) + j;
@@ -152,7 +150,7 @@ void coxcpe(const int *ROW, const int *COL, const double *bandwidth, const doubl
   result[0] = CPE;
   result[1] = CPEapp;
   result[2] = sqrt(varterm1 + varterm2);
-  printf("Result --- varterm1 = %f, varterm2 = %f\n",varterm1, varterm2);
+  /*  Rprintf("Result --- varterm1 = %f, varterm2 = %f\n",varterm1, varterm2); */
 
   for(i = 0; i < (*ROW); i++){ free(design[i]); }
   free(design);
@@ -238,19 +236,16 @@ void cpeNoTies(const int *ROW, const int *COL, const double *bandwidth, const do
   tempxji = (double *) malloc((*COL)*sizeof(double));
   sumdervec = (double *) calloc((*COL), sizeof(double));
   if(xji==NULL || xij==NULL || tempv==NULL || tempxij==NULL || tempxji==NULL || sumdervec==NULL){
-    printf("Error: Fail to allocate memory space. Your computer may not have enough memory. \n");
-    exit(1);
+    error("Error: Fail to allocate memory space. Your computer may not have enough memory. \n");
   }
   design = (double **) malloc((*ROW)*sizeof(double *));
   if(design==NULL){
-    printf("Error: Fail to allocate memory space. Your computer may not have enough memory. \n");
-    exit(1);
+    error("Error: Fail to allocate memory space. Your computer may not have enough memory. \n");
   }
   for(i=0; i<(*ROW); i++) {
     design[i] = (double *) malloc((*COL)*sizeof(double));
     if(design[i] == NULL){
-      printf("Error: Fail to allocate memory space. Your computer may not have enough memory. \n");
-      exit(1);
+      error("Error: Fail to allocate memory space. Your computer may not have enough memory. \n");
     }
     for(j=0; j<(*COL); j++){
       loc = i*(*COL) + j;
@@ -334,7 +329,7 @@ void cpeNoTies(const int *ROW, const int *COL, const double *bandwidth, const do
   result[0] = CPE;
   result[1] = CPEapp;
   result[2] = sqrt(varterm1 + varterm2);
-  printf("Result - %d, %d,%f, %f, %f,%f, %f\n",N,*ROW,UUKSUM,UUKij,varterm1,varterm2,result[2]);
+  /*  Rprintf("Result - %d, %d,%f, %f, %f,%f, %f\n",N,*ROW,UUKSUM,UUKij,varterm1,varterm2,result[2]); */
 
   for(i = 0; i < (*ROW); i++){ free(design[i]); }
   free(design);
