@@ -50,7 +50,7 @@ phcpe2(cph.fit$coefficients,coef.var=cph.fit$var,design=model.matrix(cph.fit),CP
 
 }
 
-\author{Qianxing Mo, Mithat Gonen and Glenn Heller; \email{moq@mskcc.org}}
+\author{Qianxing Mo, Mithat Gonen and Glenn Heller; \email{qmo@bcm.edu}}
 
 \references{
   Mithat Gonen and Glenn Heller. (2005). Concordance probability and
