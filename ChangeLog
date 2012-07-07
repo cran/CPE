@@ -1,0 +1,2 @@
+Version 1.4.4	July 7, 2012. 
+	A new algorithm is implemented to calculate the variance of CPE for tied variables, which is more accurate than that in the previous version. 
