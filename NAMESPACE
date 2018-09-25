@@ -1,2 +1,5 @@
-useDynLib(CPE)
+useDynLib(CPE, .registration = TRUE)
+importFrom("stats", "model.matrix", "sd")
+importFrom("rms", "cph")
+importFrom("survival","coxph")
 export(phcpe, phcpe2)

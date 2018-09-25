@@ -1,9 +1,8 @@
 /*
-Qianxing Mo, qmo@bcm.edu
-Division of Biostatistics
-Dan L. Duncan Cancer Center
-Baylor College of Medicine
-One Baylor Plaza, Houston, TX 77030
+Qianxing Mo, qianxing.mo@moffitt.org
+Department of Biostatistics & Bioinformatics
+H. Lee Moffitt Cancer Center & Research Institute
+12902 Magnolia Drive, Tampa, FL 33612 
 
 These C functions are used to compute the concordance probability for the Cox proportional hazard model
 (see Gonen and Heller, Biometrika(2005), 92, 4, pp. 965-970)

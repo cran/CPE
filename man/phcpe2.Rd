@@ -19,6 +19,9 @@ phcpe2(coef,coef.var,design, CPE.SE=FALSE,out.ties=FALSE)
     on covariates will be used to calculate the CPE.  Otherwise, they will not be used.
   }
 }
+\seealso{
+  \code{\link{phcpe}}
+}
 \value{
   \item{CPE}{Concordance Probability Estimate}
   \item{CPE.SE}{the Standard Error of the Concordance Probability Estimate}
@@ -50,11 +53,13 @@ phcpe2(cph.fit$coefficients,coef.var=cph.fit$var,design=model.matrix(cph.fit),CP
 
 }
 
-\author{Qianxing Mo, Mithat Gonen and Glenn Heller; \email{qmo@bcm.edu}}
+\author{Qianxing Mo, Mithat Gonen and Glenn Heller; \email{qianxing.mo@moffitt.org}}
 
 \references{
   Mithat Gonen and Glenn Heller. (2005). Concordance probability and
   discriminatory power in proportional hazards regression.
   \emph{Biometrika}, 92, 4, pp.965-970
+  Glenn Heller and Qianxing Mo. (2016). Estimating the concordance probability in a survival analysis with a discrete number of risk groups.
+  \emph{Lifetime Data Analysis}, 22(2):263-79.
 }
 \keyword{survival}
