@@ -1,13 +1,13 @@
-19e302763e315d5025f73fb94852c63b *ChangeLog
-cddfd8aebdee5c880bb6ab8201ed87ef *DESCRIPTION
+ebd0505f52e88c00afce99206419ca2c *ChangeLog
+a6b53fe2b5d1d8aa96425ac72b5ac04c *DESCRIPTION
 b9dde699ca53ca43020a8980489e8195 *NAMESPACE
 5ac1300be756f81c78939e37e9513e88 *R/phcpe.R
 6d2372ea2dc3308b8716b9264f8e7835 *R/phcpe2.R
-4ba49bffddd8d08bf38f82333b7bb0df *cleanup
+f1c5fe824447f30887549c25b4d3e0e1 *cleanup
 13de4ad91a96e4a21444ec6b12394827 *demo/00Index
 f3eccf5bd76c2015129db5d760efdc47 *demo/phcpe.R
 02dfeda9cf73f198c2af57eb28e2cab9 *man/phcpe.Rd
 38a36fd363820f3cdc970afd3ea4524d *man/phcpe2.Rd
 ee86739843c2e374f4809d2d6a2bd739 *src/Makevars
-59dd988174a9e2238f0c46e33ace6691 *src/phcpe.c
+e2866d8deb2d9579947db4f79b33a75b *src/phcpe.c
 1aa95f7f8f5f36c9349d7410207c6e81 *src/registerDynamicSymbol.c

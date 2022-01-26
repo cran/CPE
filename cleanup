@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 rm *~ R/*~ man/*~ demo/*~
 rm src/*.o src/*.so src/*~

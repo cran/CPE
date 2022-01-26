@@ -8,14 +8,16 @@ These C functions are used to compute the concordance probability for the Cox pr
 (see Gonen and Heller, Biometrika(2005), 92, 4, pp. 965-970)
 
 The algorithm used to compute the probability is based on the R codes written by  Ennapadam. S. Venkatraman at MSKCC, with further optimization by Qianxing Mo.  
-
 /* Last updated 6/14/2012; updated cpeNoTies function for the new algorithm to calculate the variance when covariates are tied*/
-
+/* Last updated 01/25/2022; replace error() with Rprintf(); error() failed to compile in new R version*/
+  
 #include <stdio.h>
 #include <stdlib.h>
+#include <Rinternals.h>							  
 #include <Rmath.h>
 #include <R_ext/BLAS.h>
-
+/*#include <errno.h> */
+  
 /* x = x - y*/
 void vector_sub(int size, double * x, const double *y) {
   int i;
@@ -64,19 +66,19 @@ void coxcpe(const int *ROW, const int *COL, const double *bandwidth, const doubl
   rowsum2 = (double *) calloc((*ROW), sizeof(double));
 
   if(xji==NULL || xij==NULL || tempv==NULL || tempxij==NULL || tempxji==NULL || sumdervec==NULL || rowsum2==NULL){
-    error("Error: Fail to allocate memory space. Your computer may not have enough memory. \n");
+    Rprintf("Error: Fail to allocate memory space. Your computer may not have enough memory. \n");
     /*   error(1); */
   }
 
   design = (double **) malloc((*ROW)*sizeof(double *));
   if(design==NULL){
-    error("Error: Fail to allocate memory space. Your computer may not have enough memory. \n");
+    Rprintf("Error: Fail to allocate memory space. Your computer may not have enough memory. \n");
   }
   
   for(i=0; i<(*ROW); i++) {
     design[i] = (double *) malloc((*COL)*sizeof(double));
     if(design[i] == NULL){
-      error("Error: Fail to allocate memory space. Your computer may not have enough memory. \n");
+      Rprintf("Error: Fail to allocate memory space. Your computer may not have enough memory. \n");
     }
     for(j=0; j<(*COL); j++){
       loc = i*(*COL) + j;
@@ -252,16 +254,17 @@ void cpeNoTies(const int *ROW, const int *COL, const double *bandwidth, const do
 
 
   if(xji==NULL || xij==NULL || tempv==NULL || tempxij==NULL || tempxji==NULL || sumdu1==NULL || duji1==NULL || duij1==NULL || duji2==NULL || duij2==NULL || dtran==NULL || V1==NULL || V2==NULL || tempv2==NULL){
-    error("Error: Fail to allocate memory space. \n");
+    Rprintf("Error: Fail to allocate memory space. \n");
   }
   design = (double **) malloc((*ROW)*sizeof(double *));
   if(design==NULL){
-    error("Error: Fail to allocate memory space. \n");
+    Rprintf("Error: Fail to allocate memory space. \n");
   }
   for(i=0; i<(*ROW); i++) {
     design[i] = (double *) malloc((*COL)*sizeof(double));
     if(design[i] == NULL){
-      error("Error: Fail to allocate memory space. \n");
+      Rprintf("Error: Fail to allocate memory space. \n");
+      /* exit(EXIT_FAILURE); */
     }
     for(j=0; j<(*COL); j++){
       loc = i*(*COL) + j;
