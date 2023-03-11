@@ -1,8 +1,8 @@
 \name{phcpe2}
 \alias{phcpe2}
-\title{Gonen \& Heller Concordance Probability Estimate for the Cox Proportional Hazards model}
+\title{Gonen and Heller Concordance Probability Estimate for the Cox Proportional Hazards model}
 \description{
-   A function to calculate Gonen \& Heller concordance probability
+   A function to calculate Gonen and Heller concordance probability
    estimate (CPE) for the Cox proportional hazards model.
 }
 \usage{

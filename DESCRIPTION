@@ -1,12 +1,19 @@
 Package: CPE
+Version: 1.6.3
+Date: 2023-03-10
 Title: Concordance Probability Estimates in Survival Analysis
-Version: 1.5.2
-Depends: R (>= 3.0.0),survival,rms
-Author: Qianxing Mo, Mithat Gonen and Glenn Heller
+Authors@R: c(person("Qianxing", "Mo", role = c("aut", "cre"),
+                     email = "qianxing.mo@moffitt.org"),
+              person("Mithat", "Gonen", role = "ctb"),
+              person("Glenn", "Heller", role = "ctb"))
+Author: Qianxing Mo [aut, cre],
+  Mithat Gonen [ctb],
+  Glenn Heller [ctb]
+Depends: R (>= 4.1.0),survival,rms
 Maintainer: Qianxing Mo  <qianxing.mo@moffitt.org>
-Description: Functions to calculate concordance probability estimates in survival analysis.
+Description: Concordance probability estimate (CPE) is a commonly used performance measure in survival analysis that evaluates the predictive accuracy of a survival model.  It measures how well a model can distinguish between pairs of individuals with different survival times.  Specifically, it calculate the proportion of all pairs of individuals whose predicted survival times are correctly ordered.
 License: GPL (>= 2)
 NeedsCompilation: yes
-Packaged: 2022-01-26 15:14:45 UTC; 4468133
+Packaged: 2023-03-10 22:01:59 UTC; 4468133
 Repository: CRAN
-Date/Publication: 2022-01-26 16:42:48 UTC
+Date/Publication: 2023-03-11 09:40:15 UTC

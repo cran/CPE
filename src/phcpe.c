@@ -8,15 +8,20 @@ These C functions are used to compute the concordance probability for the Cox pr
 (see Gonen and Heller, Biometrika(2005), 92, 4, pp. 965-970)
 
 The algorithm used to compute the probability is based on the R codes written by  Ennapadam. S. Venkatraman at MSKCC, with further optimization by Qianxing Mo.  
-/* Last updated 6/14/2012; updated cpeNoTies function for the new algorithm to calculate the variance when covariates are tied*/
-/* Last updated 01/25/2022; replace error() with Rprintf(); error() failed to compile in new R version*/
-  
+Last updated 6/14/2012; updated cpeNoTies function for the new algorithm to calculate the variance when covariates are tied
+Last updated 01/25/2022; replace error() with Rprintf(); error() failed to compile in new R version
+*/
+
+#define USE_FC_LEN_T
 #include <stdio.h>
 #include <stdlib.h>
 #include <Rinternals.h>							  
 #include <Rmath.h>
 #include <R_ext/BLAS.h>
 /*#include <errno.h> */
+#ifndef FCONE
+#define FCONE
+#endif
   
 /* x = x - y*/
 void vector_sub(int size, double * x, const double *y) {
@@ -142,7 +147,7 @@ void coxcpe(const int *ROW, const int *COL, const double *bandwidth, const doubl
   /* the last row sum, i = (*ROW) -1 */
   totalrowsum2 += Scale2*((rowsum2[(*ROW) - 1] + 0.5) * (rowsum2[(*ROW) - 1] + 0.5));
   vector_scale(*COL, sumdervec, 2.0/((*ROW)-1));
-  F77_CALL(dgemv)(trans, COL, COL, &ONE, varbeta, COL, sumdervec, &incx, &ZERO, tempv, &incy); 
+  F77_CALL(dgemv)(trans, COL, COL, &ONE, varbeta, COL, sumdervec, &incx, &ZERO, tempv, &incy FCONE); 
   varterm2 = F77_CALL(ddot)(COL, sumdervec, &incx, tempv, &incy);
   varterm1 = totalrowsum2 - Scale2*(0.25*(*ROW) + 4.0*CPEapp*(2.0*(*ROW)*CPEapp + 0.5*(*ROW)) - 4.0*(*ROW)*(*ROW)*CPEapp*CPEapp/((*ROW)-1));
   varterm1 = 2.0*varterm1/((*ROW)*((*ROW)-1));
@@ -220,7 +225,7 @@ void cpeOnlyNoTies(const int *ROW, const double *xbeta, double * result){
 /* Function to compute cpe and its variance, not tied; last updated 7/8/2012  */
 void cpeNoTies(const int *ROW, const int *COL, const double *bandwidth, const double *xbeta, const double * Design, const double *varbeta, double * result) {
   
-  int i, j, k, loc;
+  int i, j, loc;
   int incx, incy, TWO;
   double ONE,ZERO,dROW;
   char *trans = "N";
@@ -332,7 +337,7 @@ void cpeNoTies(const int *ROW, const int *COL, const double *bandwidth, const do
   vector_scale(*COL, sumdu1, 1.0/Scale1); /* now sumdu1 = sumdu1/sumu2 */
   /* Rprintf("sumdu1 = %f, sumdu2 = %f, sumdu3 = %f \n",sumdu1[0],sumdu1[1],sumdu1[2]);                                                                   
      Rprintf("sumu2 = %f, kappa1 = %f, kappa2 = %f \n",sumu2,kappa1,kappa2); */
-  F77_CALL(dgemv)(trans, COL, COL, &dROW, varbeta, COL, sumdu1, &incx, &ZERO, tempv, &incy);
+  F77_CALL(dgemv)(trans, COL, COL, &dROW, varbeta, COL, sumdu1, &incx, &ZERO, tempv, &incy FCONE);
   varterm2 = F77_CALL(ddot)(COL, sumdu1, &incx, tempv, &incy);
 
   CPE = CPE/kappa2*(*ROW);                 /* scale1 = 1/ROW   */
@@ -384,7 +389,7 @@ void cpeNoTies(const int *ROW, const int *COL, const double *bandwidth, const do
   }
 
   /* printf("Good before dgemv; %f, %f, %f \n",dtran[0],dtran[1],varterm2); */
-  F77_CALL(dgemv)(trans, &TWO, &TWO, &ONE, V1, &TWO, dtran, &incx, &ZERO, tempv2, &incy); 
+  F77_CALL(dgemv)(trans, &TWO, &TWO, &ONE, V1, &TWO, dtran, &incx, &ZERO, tempv2, &incy FCONE); 
   varterm1 = F77_CALL(ddot)(&TWO, dtran, &incx, tempv2, &incy);
 
   result[0] = CPE;

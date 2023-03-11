@@ -12,7 +12,7 @@ phcpe2 <- function(coef,coef.var,design,CPE.SE=FALSE,out.ties=FALSE){
   col <- as.integer(ncol(design))
 
   if(dim(covar)[1] != dim(covar)[2] || dim(covar)[1] != length(coef) || length(coef) != col){
-    cat("Error: the dimensions of coef, coef.var, or design do not match!\n")
+    message("Error: the dimensions of coef, coef.var, or design do not match!\n")
     stop("length(coef) == ncol(design) == dim(coef.var)[1] == dim(coef.var)[2]\n")
   }
   
@@ -23,7 +23,7 @@ phcpe2 <- function(coef,coef.var,design,CPE.SE=FALSE,out.ties=FALSE){
 
   if(CPE.SE==TRUE){
     if(row >= 3000) {
-      cat(c("It may take about n*n minutes to calculate 10000*n rows of data.\n"))
+      message("It may take about n*n minutes to calculate 10000*n rows of data.")
     }
     if(out.ties == FALSE){
       res <- .C("coxcpe",row,col,bandwidth,xbeta,design,varbeta,out=as.double(rep(0, 3)),PACKAGE="CPE")

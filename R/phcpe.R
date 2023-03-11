@@ -1,4 +1,4 @@
-#Qianxing Mo, moq@mskcc.org
+#Qianxing Mo, qianxing.mo@moffitt.org
 #Department of Epidemiology and Biostatistics
 #Memorial Sloan-Kettering Cancer Center, NY 10021
 
@@ -22,7 +22,7 @@ phcpe <- function(coxfit, CPE.SE=FALSE,out.ties=FALSE) {
 
   if(CPE.SE==TRUE){
     if(row >= 3000) {
-      cat(c("It may take about n*n minutes to calculate 10000*n rows of data.\n"))
+      message("It may take about n*n minutes to calculate 10000*n rows of data.")
     }
     if(out.ties == FALSE){
       res <- .C("coxcpe",row,col,bandwidth,xbeta,design,varbeta,out=as.double(rep(0, 3)),PACKAGE="CPE")
